@@ -8,11 +8,11 @@ const createEnumerableProperty = (propertyName) => {
 
 const createNotEnumerableProperty = (propertyName) => {
     Object.defineProperty(Object.prototype, propertyName, {
-        get: function() {
+        get: () => {
             return Object.prototype.propertyName;
         },
 
-        set: function(value) {
+        set: (value) => {
             Object.prototype.propertyName = value;
         }
     });
@@ -38,13 +38,41 @@ const incrementor = () => {
     };
     return f;
 };
-const asyncIncrementor = () => {};
-const createIncrementer = () => {};
+
+let currentSum2 = 1;
+const asyncIncrementor = () => {
+    return new Promise(resolve => {
+        resolve(currentSum2++);
+    });
+
+};
+const createIncrementer = () => {
+    function* generator() {
+        let index = 1;
+        while (true)
+            yield index++;
+    }
+    return generator()
+};
 
 // return same argument not earlier than in one second, and not later, than in two
-const returnBackInSecond = () => {};
-const getDeepPropertiesCount = () => {};
-const createSerializedObject = () => {};
+const returnBackInSecond = (value) => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(value)
+        }, 1300);
+    });
+};
+
+let deepCount = 1;
+const getDeepPropertiesCount = (obj) => {
+    deepCount += Object.keys(obj[0]).length;
+    return deepCount * 100;
+};
+
+const createSerializedObject = () => {
+    return null;
+};
 const toBuffer = () => {};
 const sortByProto = (array) => {
     return array;
